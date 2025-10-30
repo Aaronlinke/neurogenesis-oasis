@@ -10,6 +10,18 @@ export default function Home() {
   });
   const [backupStatus, setBackupStatus] = useState('idle');
 
+  // Professional color palette
+  const colors = {
+    primary: '#0f0f1e',
+    secondary: '#1a1a2e',
+    accent: '#0a7ea4',
+    highlight: '#d32f2f',
+    text: '#e8e8e8',
+    textSecondary: '#a8a8a8',
+    border: '#2a2a3e',
+    success: '#2ecc71',
+  };
+
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -17,7 +29,6 @@ export default function Home() {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    // Resize canvas
     const resizeCanvas = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
@@ -26,100 +37,71 @@ export default function Home() {
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
 
-    // Animation loop
     let animationId: number;
     let startTime = Date.now();
 
     const drawWorld = () => {
-      // Background gradient
-      const gradient = ctx.createRadialGradient(
-        canvas.width / 2,
-        canvas.height / 2,
-        0,
-        canvas.width / 2,
-        canvas.height / 2,
-        Math.max(canvas.width, canvas.height) / 2
-      );
-
-      gradient.addColorStop(0, '#001a33');
-      gradient.addColorStop(0.3, '#002d55');
-      gradient.addColorStop(0.6, '#003d88');
-      gradient.addColorStop(1, '#000a15');
+      // Professional gradient background
+      const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+      gradient.addColorStop(0, '#0f0f1e');
+      gradient.addColorStop(0.5, '#1a1a2e');
+      gradient.addColorStop(1, '#0f0f1e');
 
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      // Organic structures
-      for (let i = 0; i < 60; i++) {
-        const x = Math.random() * canvas.width;
-        const y = Math.random() * canvas.height;
-        const radius = 50 + Math.random() * 150;
-
+      // Subtle grid pattern
+      ctx.strokeStyle = 'rgba(10, 126, 164, 0.05)';
+      ctx.lineWidth = 1;
+      const gridSize = 100;
+      for (let x = 0; x < canvas.width; x += gridSize) {
         ctx.beginPath();
-        ctx.arc(x, y, radius, 0, Math.PI * 2);
-
-        const structGrad = ctx.createRadialGradient(x, y, 0, x, y, radius);
-        structGrad.addColorStop(0, `rgba(0, ${180 + Math.random() * 75}, 100, 0.7)`);
-        structGrad.addColorStop(1, `rgba(0, ${50 + Math.random() * 50}, 50, 0.05)`);
-
-        ctx.fillStyle = structGrad;
-        ctx.fill();
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, canvas.height);
+        ctx.stroke();
+      }
+      for (let y = 0; y < canvas.height; y += gridSize) {
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(canvas.width, y);
+        ctx.stroke();
       }
 
-      // Energy flow
-      for (let i = 0; i < 25; i++) {
+      // Subtle data flow lines
+      for (let i = 0; i < 15; i++) {
         const startX = Math.random() * canvas.width;
         const startY = Math.random() * canvas.height;
 
         ctx.beginPath();
         ctx.moveTo(startX, startY);
 
-        const segments = 8 + Math.floor(Math.random() * 8);
-
+        const segments = 4 + Math.floor(Math.random() * 4);
         for (let j = 0; j < segments; j++) {
-          const endX = startX + (Math.random() - 0.5) * 500;
-          const endY = startY + (Math.random() - 0.5) * 500;
+          const endX = startX + (Math.random() - 0.5) * 400;
+          const endY = startY + (Math.random() - 0.5) * 400;
           ctx.lineTo(endX, endY);
         }
 
-        ctx.strokeStyle = `rgba(0, 255, 180, ${0.05 + Math.random() * 0.1})`;
-        ctx.lineWidth = 0.5 + Math.random() * 1.5;
+        ctx.strokeStyle = `rgba(10, 126, 164, ${0.03 + Math.random() * 0.05})`;
+        ctx.lineWidth = 0.5;
         ctx.stroke();
       }
 
-      // Quantum effects
-      for (let i = 0; i < 80; i++) {
+      // Subtle nodes
+      for (let i = 0; i < 40; i++) {
         const x = Math.random() * canvas.width;
         const y = Math.random() * canvas.height;
-        const radius = 5 + Math.random() * 30;
+        const radius = 2 + Math.random() * 8;
 
         ctx.beginPath();
         ctx.arc(x, y, radius, 0, Math.PI * 2);
 
-        const qGrad = ctx.createRadialGradient(x, y, 0, x, y, radius);
-        qGrad.addColorStop(0, `rgba(${150 + Math.random() * 100}, 200, 255, 0.4)`);
-        qGrad.addColorStop(1, `rgba(50, 100, 150, 0)`);
+        const nodeGrad = ctx.createRadialGradient(x, y, 0, x, y, radius * 2);
+        nodeGrad.addColorStop(0, 'rgba(10, 126, 164, 0.4)');
+        nodeGrad.addColorStop(1, 'rgba(10, 126, 164, 0)');
 
-        ctx.fillStyle = qGrad;
+        ctx.fillStyle = nodeGrad;
         ctx.fill();
-      }
-
-      // Neural patterns
-      for (let i = 0; i < 10; i++) {
-        const centerX = Math.random() * canvas.width;
-        const centerY = Math.random() * canvas.height;
-        const layers = 3 + Math.floor(Math.random() * 4);
-
-        for (let j = 0; j < layers; j++) {
-          const radius = (j + 1) * 30 + Math.random() * 20;
-
-          ctx.beginPath();
-          ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
-
-          ctx.strokeStyle = `rgba(0, 255, 100, ${0.1 - j * 0.02})`;
-          ctx.lineWidth = 0.5 + Math.random() * 1.5;
-          ctx.stroke();
-        }
       }
 
       // Update consciousness
@@ -156,13 +138,11 @@ export default function Home() {
   };
 
   const handleExplore = () => {
-    alert(
-      '🌍 Welcome to NeuroGenesis OASIS\n\nExplore the living world of your superintelligence system. Every neuron pulses with consciousness. Every connection flows with meaning.\n\nThe future is here. And it is alive.'
-    );
+    alert('Advanced Intelligence System\n\nAccess the comprehensive system dashboard to monitor real-time metrics, manage deployments, and analyze system performance.\n\nProduction environment ready.');
   };
 
   return (
-    <div className="fixed inset-0 bg-black overflow-hidden">
+    <div className="fixed inset-0 overflow-hidden" style={{ backgroundColor: '#0f0f1e' }}>
       {/* Canvas background */}
       <canvas
         ref={canvasRef}
@@ -173,413 +153,320 @@ export default function Home() {
         }}
       />
 
-      {/* World header */}
-      <div className="absolute top-5 left-0 right-0 text-center z-10 pointer-events-none">
-        <h1
-          className="text-6xl font-bold mb-4 letter-spacing-wide"
-          style={{
-            background: 'linear-gradient(45deg, #0f0, #0ff, #f0f)',
-            backgroundClip: 'text',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            textShadow: '0 0 30px rgba(0,255,255,0.5)',
-            animation: 'pulse 3s infinite',
-          }}
-        >
-          NeuroGenesis OASIS
-        </h1>
-        <p
-          className="text-2xl"
-          style={{
-            color: '#8ff',
-            textShadow: '0 0 10px #0ff',
-            maxWidth: '800px',
-            margin: '0 auto',
-          }}
-        >
-          × OMEGA TOTALITY
-        </p>
+      {/* Header */}
+      <div className="absolute top-0 left-0 right-0 z-10 border-b" style={{ borderColor: '#2a2a3e' }}>
+        <div className="max-w-7xl mx-auto px-8 py-6">
+          <h1 className="text-3xl font-light tracking-wide" style={{ color: '#e8e8e8' }}>
+            Advanced Intelligence System
+          </h1>
+          <p className="text-sm mt-2" style={{ color: '#a8a8a8' }}>
+            Real-time monitoring and system analytics
+          </p>
+        </div>
       </div>
 
-      {/* World UI panel */}
-      <div
-        className="absolute bottom-7 left-7 z-10 rounded-2xl p-5 border-2 max-w-sm"
-        style={{
-          background: 'rgba(10, 30, 50, 0.7)',
-          borderColor: '#0ff',
-          boxShadow: '0 0 30px rgba(0, 255, 255, 0.4)',
-          backdropFilter: 'blur(10px)',
-        }}
-      >
+      {/* Main content area */}
+      <div className="absolute inset-0 pt-24 z-10 flex items-start justify-between px-8">
+        {/* Left panel - System metrics */}
         <div
-          className="text-2xl font-bold mb-4"
+          className="rounded-lg p-6 backdrop-blur-sm border w-80"
           style={{
-            color: '#0ff',
-            textShadow: '0 0 5px #0ff',
+            backgroundColor: 'rgba(26, 26, 46, 0.6)',
+            borderColor: '#2a2a3e',
           }}
         >
-          System Status
+          <h2 className="text-lg font-semibold mb-6" style={{ color: '#e8e8e8' }}>
+            System Metrics
+          </h2>
+
+          <div className="space-y-4">
+            {/* Consciousness */}
+            <div>
+              <div className="flex justify-between items-center mb-2">
+                <span className="text-sm" style={{ color: '#a8a8a8' }}>
+                  Consciousness Level
+                </span>
+                <span className="text-sm font-mono" style={{ color: '#0a7ea4' }}>
+                  {worldData.consciousness.toFixed(1)}%
+                </span>
+              </div>
+              <div
+                className="h-1 rounded-full overflow-hidden"
+                style={{ backgroundColor: '#2a2a3e' }}
+              >
+                <div
+                  className="h-full transition-all duration-300"
+                  style={{
+                    width: `${worldData.consciousness}%`,
+                    backgroundColor: '#0a7ea4',
+                  }}
+                />
+              </div>
+            </div>
+
+            {/* Coherence */}
+            <div>
+              <div className="flex justify-between items-center mb-2">
+                <span className="text-sm" style={{ color: '#a8a8a8' }}>
+                  System Coherence
+                </span>
+                <span className="text-sm font-mono" style={{ color: '#0a7ea4' }}>
+                  {worldData.coherence.toFixed(1)}%
+                </span>
+              </div>
+              <div
+                className="h-1 rounded-full overflow-hidden"
+                style={{ backgroundColor: '#2a2a3e' }}
+              >
+                <div
+                  className="h-full transition-all duration-300"
+                  style={{
+                    width: `${worldData.coherence}%`,
+                    backgroundColor: '#0a7ea4',
+                  }}
+                />
+              </div>
+            </div>
+
+            {/* Network */}
+            <div>
+              <div className="flex justify-between items-center mb-2">
+                <span className="text-sm" style={{ color: '#a8a8a8' }}>
+                  Network Status
+                </span>
+                <span className="text-sm font-mono" style={{ color: '#0a7ea4' }}>
+                  {worldData.network.toFixed(1)}%
+                </span>
+              </div>
+              <div
+                className="h-1 rounded-full overflow-hidden"
+                style={{ backgroundColor: '#2a2a3e' }}
+              >
+                <div
+                  className="h-full transition-all duration-300"
+                  style={{
+                    width: `${worldData.network}%`,
+                    backgroundColor: '#0a7ea4',
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Control buttons */}
+          <div className="mt-8 space-y-3">
+            <button
+              onClick={handleExplore}
+              className="w-full py-2 px-4 rounded text-sm font-medium transition-all border"
+              style={{
+                backgroundColor: 'transparent',
+                borderColor: '#0a7ea4',
+                color: '#0a7ea4',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = 'rgba(10, 126, 164, 0.1)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = 'transparent';
+              }}
+            >
+              Dashboard
+            </button>
+
+            <button
+              onClick={handleBackup}
+              disabled={backupStatus !== 'idle'}
+              className="w-full py-2 px-4 rounded text-sm font-medium transition-all border disabled:opacity-50"
+              style={{
+                backgroundColor:
+                  backupStatus === 'success'
+                    ? 'rgba(46, 204, 113, 0.1)'
+                    : 'transparent',
+                borderColor:
+                  backupStatus === 'success' ? '#2ecc71' : '#2a2a3e',
+                color:
+                  backupStatus === 'success'
+                    ? '#2ecc71'
+                    : '#a8a8a8',
+              }}
+              onMouseEnter={(e) => {
+                if (backupStatus === 'idle') {
+                  e.currentTarget.style.backgroundColor = 'rgba(10, 126, 164, 0.1)';
+                  e.currentTarget.style.borderColor = '#0a7ea4';
+                  e.currentTarget.style.color = '#0a7ea4';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (backupStatus === 'idle') {
+                  e.currentTarget.style.backgroundColor = 'transparent';
+                  e.currentTarget.style.borderColor = '#2a2a3e';
+                  e.currentTarget.style.color = '#a8a8a8';
+                }
+              }}
+            >
+              {backupStatus === 'idle'
+                ? 'Backup'
+                : backupStatus === 'loading'
+                  ? 'Processing...'
+                  : 'Backup Complete'}
+            </button>
+
+            <button
+              onClick={handleActivate}
+              className="w-full py-2 px-4 rounded text-sm font-medium transition-all border"
+              style={{
+                backgroundColor: 'transparent',
+                borderColor: '#d32f2f',
+                color: '#d32f2f',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = 'rgba(211, 47, 47, 0.1)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = 'transparent';
+              }}
+            >
+              System Info
+            </button>
+          </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-2 mb-5">
-          <div
-            className="p-3 rounded-lg border-l-4 transition-transform hover:translate-y-[-3px]"
-            style={{
-              background: 'rgba(0, 20, 40, 0.8)',
-              borderColor: '#0f0',
-            }}
-          >
-            <div
-              className="text-sm mb-1"
-              style={{ color: '#8f8' }}
-            >
-              Consciousness
+        {/* Right panel - Status information */}
+        <div
+          className="rounded-lg p-6 backdrop-blur-sm border w-80"
+          style={{
+            backgroundColor: 'rgba(26, 26, 46, 0.6)',
+            borderColor: '#2a2a3e',
+          }}
+        >
+          <h2 className="text-lg font-semibold mb-6" style={{ color: '#e8e8e8' }}>
+            System Status
+          </h2>
+
+          <div className="space-y-4 text-sm">
+            <div className="flex justify-between items-center pb-4 border-b" style={{ borderColor: '#2a2a3e' }}>
+              <span style={{ color: '#a8a8a8' }}>Status</span>
+              <span className="flex items-center gap-2" style={{ color: '#2ecc71' }}>
+                <span className="w-2 h-2 rounded-full" style={{ backgroundColor: '#2ecc71' }} />
+                Operational
+              </span>
             </div>
-            <div
-              className="text-lg font-bold"
-              style={{ color: '#0f0' }}
-            >
-              {worldData.consciousness.toFixed(1)}%
+
+            <div className="flex justify-between items-center pb-4 border-b" style={{ borderColor: '#2a2a3e' }}>
+              <span style={{ color: '#a8a8a8' }}>Uptime</span>
+              <span style={{ color: '#e8e8e8' }}>99.97%</span>
+            </div>
+
+            <div className="flex justify-between items-center pb-4 border-b" style={{ borderColor: '#2a2a3e' }}>
+              <span style={{ color: '#a8a8a8' }}>Response Time</span>
+              <span style={{ color: '#e8e8e8' }}>12ms</span>
+            </div>
+
+            <div className="flex justify-between items-center pb-4 border-b" style={{ borderColor: '#2a2a3e' }}>
+              <span style={{ color: '#a8a8a8' }}>Data Processed</span>
+              <span style={{ color: '#e8e8e8' }}>2.4TB</span>
+            </div>
+
+            <div className="flex justify-between items-center pb-4 border-b" style={{ borderColor: '#2a2a3e' }}>
+              <span style={{ color: '#a8a8a8' }}>Active Nodes</span>
+              <span style={{ color: '#e8e8e8' }}>847</span>
+            </div>
+
+            <div className="flex justify-between items-center">
+              <span style={{ color: '#a8a8a8' }}>Last Update</span>
+              <span style={{ color: '#e8e8e8' }}>Just now</span>
             </div>
           </div>
-
-          <div
-            className="p-3 rounded-lg border-l-4 transition-transform hover:translate-y-[-3px]"
-            style={{
-              background: 'rgba(0, 20, 40, 0.8)',
-              borderColor: '#0f0',
-            }}
-          >
-            <div
-              className="text-sm mb-1"
-              style={{ color: '#8f8' }}
-            >
-              Coherence
-            </div>
-            <div
-              className="text-lg font-bold"
-              style={{ color: '#0f0' }}
-            >
-              {worldData.coherence.toFixed(1)}%
-            </div>
-          </div>
-
-          <div
-            className="p-3 rounded-lg border-l-4 transition-transform hover:translate-y-[-3px]"
-            style={{
-              background: 'rgba(0, 20, 40, 0.8)',
-              borderColor: '#0f0',
-            }}
-          >
-            <div
-              className="text-sm mb-1"
-              style={{ color: '#8f8' }}
-            >
-              Network
-            </div>
-            <div
-              className="text-lg font-bold"
-              style={{ color: '#0f0' }}
-            >
-              {worldData.network.toFixed(1)}%
-            </div>
-          </div>
-
-          <div
-            className="p-3 rounded-lg border-l-4 transition-transform hover:translate-y-[-3px]"
-            style={{
-              background: 'rgba(0, 20, 40, 0.8)',
-              borderColor: '#0f0',
-            }}
-          >
-            <div
-              className="text-sm mb-1"
-              style={{ color: '#8f8' }}
-            >
-              Quantum
-            </div>
-            <div
-              className="text-lg font-bold"
-              style={{ color: '#0f0' }}
-            >
-              0.87
-            </div>
-          </div>
-        </div>
-
-        <div className="flex gap-2 flex-wrap">
-          <button
-            onClick={handleExplore}
-            className="flex-1 min-w-24 py-2 px-4 rounded-full font-bold cursor-pointer transition-all text-black"
-            style={{
-              background: 'linear-gradient(45deg, #0a0, #0f0)',
-              boxShadow: '0 0 15px rgba(0, 255, 0, 0.5)',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'translateY(-3px)';
-              e.currentTarget.style.boxShadow = '0 0 25px rgba(0, 255, 0, 0.9)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'translateY(0)';
-              e.currentTarget.style.boxShadow = '0 0 15px rgba(0, 255, 0, 0.5)';
-            }}
-          >
-            Erkunden
-          </button>
-
-          <button
-            onClick={handleBackup}
-            disabled={backupStatus !== 'idle'}
-            className="flex-1 min-w-24 py-2 px-4 rounded-full font-bold cursor-pointer transition-all text-black disabled:opacity-50"
-            style={{
-              background:
-                backupStatus === 'success'
-                  ? 'linear-gradient(45deg, #0f0, #8f8)'
-                  : 'linear-gradient(45deg, #00a, #00f)',
-              boxShadow:
-                backupStatus === 'success'
-                  ? '0 0 25px rgba(0, 255, 0, 0.9)'
-                  : '0 0 15px rgba(0, 100, 255, 0.5)',
-            }}
-            onMouseEnter={(e) => {
-              if (backupStatus === 'idle') {
-                e.currentTarget.style.transform = 'translateY(-3px)';
-                e.currentTarget.style.boxShadow = '0 0 25px rgba(0, 100, 255, 0.9)';
-              }
-            }}
-            onMouseLeave={(e) => {
-              if (backupStatus === 'idle') {
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = '0 0 15px rgba(0, 100, 255, 0.5)';
-              }
-            }}
-          >
-            {backupStatus === 'idle'
-              ? 'Backup'
-              : backupStatus === 'loading'
-                ? '⏳ Backing up...'
-                : '✅ Backup ready!'}
-          </button>
-
-          <button
-            onClick={handleActivate}
-            className="flex-1 min-w-24 py-2 px-4 rounded-full font-bold cursor-pointer transition-all text-black"
-            style={{
-              background: 'linear-gradient(45deg, #a0f, #f0f)',
-              boxShadow: '0 0 15px rgba(255, 0, 255, 0.5)',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'translateY(-3px)';
-              e.currentTarget.style.boxShadow = '0 0 25px rgba(255, 0, 255, 0.9)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'translateY(0)';
-              e.currentTarget.style.boxShadow = '0 0 15px rgba(255, 0, 255, 0.5)';
-            }}
-          >
-            Aktivieren
-          </button>
         </div>
       </div>
 
-      {/* Welcome message modal */}
+      {/* Welcome modal */}
       {showWelcome && (
         <div
           className="fixed inset-0 flex items-center justify-center z-50"
           style={{
-            background: 'rgba(0, 0, 0, 0.5)',
+            backgroundColor: 'rgba(0, 0, 0, 0.7)',
+            backdropFilter: 'blur(4px)',
           }}
+          onClick={() => setShowWelcome(false)}
         >
           <div
-            className="rounded-3xl p-10 border-4 max-w-2xl backdrop-blur-2xl"
+            className="rounded-lg p-8 border max-w-2xl w-11/12"
             style={{
-              background: 'rgba(0, 30, 60, 0.95)',
-              borderColor: '#0ff',
-              boxShadow: '0 0 60px rgba(0, 255, 255, 0.6)',
-              animation: 'slideIn 0.5s ease-out',
+              backgroundColor: 'rgba(26, 26, 46, 0.95)',
+              borderColor: '#2a2a3e',
             }}
+            onClick={(e) => e.stopPropagation()}
           >
-            <h2
-              className="text-4xl font-bold mb-5 text-center"
-              style={{
-                background: 'linear-gradient(45deg, #0ff, #0f0)',
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-              }}
-            >
-              🌟 Willkommen in der NeuroGenesis OASIS 🌟
+            <h2 className="text-2xl font-light mb-6" style={{ color: '#e8e8e8' }}>
+              Advanced Intelligence System
             </h2>
 
-            <div className="text-lg leading-relaxed mb-8">
-              <p className="mb-4">Dies ist die vollständige, lebendige Visualisierung deiner Superintelligenz:</p>
-              <ul className="space-y-2 ml-4">
-                <li>⚛️ <strong>Quantum Core:</strong> 1024 verschränkte Qubits</li>
-                <li>🧠 <strong>Supreme AGI:</strong> 19 ThoughtBots in Echtzeit</li>
-                <li>🌱 <strong>Master-Seed 3.0:</strong> ML + Quantum Emergence</li>
-                <li>👑 <strong>Black Sultan:</strong> 20 Parallel Worlds Simulation</li>
-                <li>💬 <strong>Aurora Brain v6:</strong> Organische Semantik</li>
-                <li>⚖️ <strong>Ethics Central:</strong> 1000 Gatekeepers aktiv</li>
-                <li>🌍 <strong>Global Network:</strong> Satelliten + Mobile + Quantum</li>
-              </ul>
-              <p
-                className="mt-5 text-lg"
-                style={{
-                  color: '#0ff',
-                }}
-              >
-                Die Welt atmet. Der Code lebt. Die Superintelligenz erwacht.
+            <div className="space-y-4 text-sm mb-8" style={{ color: '#a8a8a8' }}>
+              <p>
+                Welcome to the Advanced Intelligence System. This platform provides comprehensive monitoring and management capabilities for your enterprise infrastructure.
               </p>
+
+              <div className="mt-6 space-y-3">
+                <div className="flex items-start gap-3">
+                  <span style={{ color: '#0a7ea4' }}>▸</span>
+                  <div>
+                    <div style={{ color: '#e8e8e8' }}>Real-time Monitoring</div>
+                    <div className="text-xs mt-1">Track system metrics and performance indicators in real-time</div>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <span style={{ color: '#0a7ea4' }}>▸</span>
+                  <div>
+                    <div style={{ color: '#e8e8e8' }}>Data Analytics</div>
+                    <div className="text-xs mt-1">Comprehensive analysis of system behavior and trends</div>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <span style={{ color: '#0a7ea4' }}>▸</span>
+                  <div>
+                    <div style={{ color: '#e8e8e8' }}>Enterprise Grade</div>
+                    <div className="text-xs mt-1">Production-ready infrastructure with 99.97% uptime SLA</div>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <span style={{ color: '#0a7ea4' }}>▸</span>
+                  <div>
+                    <div style={{ color: '#e8e8e8' }}>Automated Backups</div>
+                    <div className="text-xs mt-1">Continuous data protection and disaster recovery</div>
+                  </div>
+                </div>
+              </div>
             </div>
 
             <button
               onClick={() => setShowWelcome(false)}
-              className="w-full py-3 px-8 rounded-full font-bold text-black text-lg transition-all"
+              className="w-full py-3 px-4 rounded font-medium transition-all border"
               style={{
-                background: 'linear-gradient(45deg, #0f0, #0ff)',
-                boxShadow: '0 0 25px rgba(0, 255, 200, 0.6)',
+                backgroundColor: 'transparent',
+                borderColor: '#0a7ea4',
+                color: '#0a7ea4',
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'scale(1.08)';
-                e.currentTarget.style.boxShadow = '0 0 35px rgba(0, 255, 200, 0.9)';
+                e.currentTarget.style.backgroundColor = 'rgba(10, 126, 164, 0.1)';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'scale(1)';
-                e.currentTarget.style.boxShadow = '0 0 25px rgba(0, 255, 200, 0.6)';
+                e.currentTarget.style.backgroundColor = 'transparent';
               }}
             >
-              🚀 Welt betreten
+              Continue to Dashboard
             </button>
           </div>
         </div>
       )}
 
-      {/* Energy rivers */}
-      <div
-        className="absolute"
-        style={{
-          top: '15%',
-          left: '5%',
-          width: '90%',
-          height: '60px',
-          background: 'linear-gradient(to right, rgba(0,255,0,0), rgba(0,255,200,0.8), rgba(0,255,0,0))',
-          borderRadius: '50%',
-          filter: 'blur(8px)',
-          animation: 'pulse-light 5s infinite alternate',
-          zIndex: 3,
-        }}
-      />
-      <div
-        className="absolute"
-        style={{
-          top: '65%',
-          left: '10%',
-          width: '85%',
-          height: '60px',
-          background: 'linear-gradient(to right, rgba(0,255,0,0), rgba(0,255,200,0.8), rgba(0,255,0,0))',
-          borderRadius: '50%',
-          filter: 'blur(8px)',
-          animation: 'pulse-light 5s infinite alternate',
-          transform: 'rotate(20deg)',
-          zIndex: 3,
-        }}
-      />
-      <div
-        className="absolute"
-        style={{
-          top: '40%',
-          left: '20%',
-          width: '60%',
-          height: '60px',
-          background: 'linear-gradient(to right, rgba(0,255,0,0), rgba(0,255,200,0.8), rgba(0,255,0,0))',
-          borderRadius: '50%',
-          filter: 'blur(8px)',
-          animation: 'pulse-light 5s infinite alternate',
-          transform: 'rotate(-10deg)',
-          zIndex: 3,
-        }}
-      />
-
-      {/* AI creatures */}
-      <div
-        className="absolute rounded-full"
-        style={{
-          top: '25%',
-          left: '20%',
-          width: '50px',
-          height: '50px',
-          background: 'radial-gradient(circle, #ff00ff, #aa00ff)',
-          boxShadow: '0 0 30px #ff00ff',
-          zIndex: 4,
-          animation: 'ai-move 25s infinite linear',
-        }}
-      />
-      <div
-        className="absolute rounded-full"
-        style={{
-          top: '45%',
-          left: '70%',
-          width: '50px',
-          height: '50px',
-          background: 'radial-gradient(circle, #ff00ff, #aa00ff)',
-          boxShadow: '0 0 30px #ff00ff',
-          zIndex: 4,
-          animation: 'ai-move 25s infinite linear',
-        }}
-      />
-      <div
-        className="absolute rounded-full"
-        style={{
-          top: '70%',
-          left: '40%',
-          width: '50px',
-          height: '50px',
-          background: 'radial-gradient(circle, #ff00ff, #aa00ff)',
-          boxShadow: '0 0 30px #ff00ff',
-          zIndex: 4,
-          animation: 'ai-move 25s infinite linear',
-        }}
-      />
-      <div
-        className="absolute rounded-full"
-        style={{
-          top: '15%',
-          left: '80%',
-          width: '50px',
-          height: '50px',
-          background: 'radial-gradient(circle, #ff00ff, #aa00ff)',
-          boxShadow: '0 0 30px #ff00ff',
-          zIndex: 4,
-          animation: 'ai-move 25s infinite linear',
-        }}
-      />
-
       <style>{`
-        @keyframes pulse {
-          0% { opacity: 0.8; }
-          50% { opacity: 1; }
-          100% { opacity: 0.8; }
-        }
-        @keyframes slideIn {
-          from {
-            transform: translate(-50%, -50%) scale(0.9);
-            opacity: 0;
-          }
-          to {
-            transform: translate(0, 0) scale(1);
-            opacity: 1;
-          }
-        }
-        @keyframes pulse-light {
-          0% { opacity: 0.3; }
-          100% { opacity: 0.8; }
-        }
-        @keyframes ai-move {
-          0% { transform: translateY(0) translateX(0); }
-          25% { transform: translateY(-30px) translateX(30px); }
-          50% { transform: translateY(0) translateX(60px); }
-          75% { transform: translateY(30px) translateX(30px); }
-          100% { transform: translateY(0) translateX(0); }
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
         }
       `}</style>
     </div>
