@@ -10,6 +10,11 @@ import Reports from "./pages/Reports";
 import Logs from "./pages/Logs";
 import Configuration from "./pages/Configuration";
 import Users from "./pages/Users";
+import Pricing from "./pages/Pricing";
+import Subscription from "./pages/Subscription";
+import APIKeys from "./pages/APIKeys";
+import Affiliate from "./pages/Affiliate";
+import Revenue from "./pages/Revenue";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -21,6 +26,11 @@ function Router() {
       <Route path={"/logs"} component={Logs} />
       <Route path={"/configuration"} component={Configuration} />
       <Route path={"/users"} component={Users} />
+      <Route path={"/pricing"} component={Pricing} />
+      <Route path={"/subscription"} component={Subscription} />
+      <Route path={"/api-keys"} component={APIKeys} />
+      <Route path={"/affiliate"} component={Affiliate} />
+      <Route path={"/revenue"} component={Revenue} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
