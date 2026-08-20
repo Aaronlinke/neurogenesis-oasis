@@ -1,4 +1,3 @@
-import { useAuth } from "@/_core/hooks/useAuth";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -21,15 +20,38 @@ import {
 } from "@/components/ui/sidebar";
 import { APP_LOGO, APP_TITLE, getLoginUrl } from "@/const";
 import { useIsMobile } from "@/hooks/useMobile";
-import { LayoutDashboard, LogOut, PanelLeft, Users } from "lucide-react";
+import {
+  BarChart3,
+  CircleDollarSign,
+  CreditCard,
+  FileText,
+  Handshake,
+  KeyRound,
+  LayoutDashboard,
+  LogOut,
+  PanelLeft,
+  ScrollText,
+  Settings2,
+  Tag,
+  Users,
+} from "lucide-react";
 import { CSSProperties, useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
 import { DashboardLayoutSkeleton } from './DashboardLayoutSkeleton';
 import { Button } from "./ui/button";
 
 const menuItems = [
-  { icon: LayoutDashboard, label: "Page 1", path: "/" },
-  { icon: Users, label: "Page 2", path: "/some-path" },
+  { icon: LayoutDashboard, label: "Overview", path: "/" },
+  { icon: BarChart3, label: "Analytics", path: "/analytics" },
+  { icon: FileText, label: "Reports", path: "/reports" },
+  { icon: ScrollText, label: "System Logs", path: "/logs" },
+  { icon: Settings2, label: "Configuration", path: "/configuration" },
+  { icon: Users, label: "Users", path: "/users" },
+  { icon: Tag, label: "Pricing Tiers", path: "/pricing" },
+  { icon: CreditCard, label: "Subscription", path: "/subscription" },
+  { icon: KeyRound, label: "API Keys", path: "/api-keys" },
+  { icon: Handshake, label: "Affiliate", path: "/affiliate" },
+  { icon: CircleDollarSign, label: "Revenue", path: "/revenue" },
 ];
 
 const SIDEBAR_WIDTH_KEY = "sidebar-width";

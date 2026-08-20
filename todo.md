@@ -52,3 +52,11 @@
 - [ ] Create automated reporting for customers
 - [x] Build admin dashboard for revenue tracking
 - [ ] Set up automatic payment reminders
+
+## Phase 3-5: Autonome Monetarisierung & Persistente Architektur
+- [x] Projektstatus und Build verifiziert
+- [ ] Stripe-Webhook & Checkout Endpunkte mit echter DB-Verknüpfung absichern
+- [x] Echte Datenbanktabellen für API-Keys, Usage-Metering und Affiliates in Drizzle Schema anlegen
+- [x] tRPC Router für Revenue, API Keys, Affiliate und Subscriptions erstellen
+- [x] Persistente Sidebar-Navigation für alle Dashboard- und Einnahmeseiten einbauen
+- [x] Vitest-Tests für Pricing, API-Preise und Affiliate-Regeln schreiben und ausführen

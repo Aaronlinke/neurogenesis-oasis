@@ -3,6 +3,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/NotFound";
 import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
+import DashboardLayout from "./components/DashboardLayout";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
 import Analytics from "./pages/Analytics";
@@ -52,7 +53,9 @@ function App() {
       >
         <TooltipProvider>
           <Toaster />
-          <Router />
+          <DashboardLayout>
+            <Router />
+          </DashboardLayout>
         </TooltipProvider>
       </ThemeProvider>
     </ErrorBoundary>
