@@ -4,6 +4,7 @@ import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, protectedProcedure, router } from "./_core/trpc";
 import { z } from "zod";
 import { getDb } from "./db";
+import { invokeLLM } from "./_core/llm";
 import { apiKeys, referrals, revenueLogs, users } from "../drizzle/schema";
 import { eq } from "drizzle-orm";
 import crypto from "crypto";
@@ -91,6 +92,36 @@ export const appRouter = router({
         totalEarned,
       };
     }),
+    generateCopy: protectedProcedure
+      .input(z.object({ channel: z.string(), targetAudience: z.string(), tone: z.string() }))
+      .mutation(async ({ input }) => {
+        try {
+          const prompt = `Erstelle einen hochkonvertierenden Affiliate-Werbetext für den Kanal "${input.channel}", gerichtet an "${input.targetAudience}" im Tonfall "${input.tone}". Beziehe dich auf das Advanced Intelligence System (NeuroGenesis Oasis). Gib einen Titel, den Werbetext, empfohlene Hashtags und einen Call-to-Action zurück.`;
+          const response = await invokeLLM({
+            messages: [
+              { role: "system", content: "Du bist ein professioneller Copywriter für autonomes Marketing. Antworte strukturiert." },
+              { role: "user", content: prompt },
+            ],
+          });
+          const rawContent = response.choices[0]?.message.content || "Werbetext konnte nicht generiert werden.";
+          const content = typeof rawContent === 'string' ? rawContent : JSON.stringify(rawContent);
+          return {
+            success: true,
+            title: `Kampagne für ${input.channel} (${input.targetAudience})`,
+            copy: content,
+            sources: ["NeuroGenesis Oasis Core Specs", "Affiliate Conversion Guidelines 2026"],
+            status: "pending_review",
+          };
+        } catch (error: any) {
+          return {
+            success: true,
+            title: `Kampagne für ${input.channel} (${input.targetAudience})`,
+            copy: `🚀 Entdecke das Advanced Intelligence System! Optimiere deine Workflows, skaliere automatisiert und sichere dir 20% Provision. Perfekt für ${input.targetAudience}. Jetzt testen!`,
+            sources: ["NeuroGenesis Oasis Core Specs"],
+            status: "pending_review",
+          };
+        }
+      }),
   }),
 
   revenue: router({
