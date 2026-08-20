@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { SUBSCRIPTION_TIERS } from '@/const';
+import { SUBSCRIPTION_TIERS } from '@shared/products';
 
 export default function Pricing() {
   const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('monthly');

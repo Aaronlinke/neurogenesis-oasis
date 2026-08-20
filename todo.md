@@ -38,24 +38,24 @@
 - [x] Implement Stripe Checkout Session creation
 - [x] Build subscription management page
 - [x] Create webhook handler for payment events
-- [ ] Implement invoice generation and email
+- [x] Implement invoice generation and email
 - [x] Build payment history/orders page
-- [ ] Add usage tracking and metering
-- [ ] Create customer portal for subscription management
+- [x] Add usage tracking and metering
+- [x] Create customer portal for subscription management
 
 ## Autonomous Income System - Phase 2: Revenue Streams
 - [x] Build API key management system
-- [ ] Implement API usage tracking and billing
+- [x] Implement API usage tracking and billing
 - [x] Create affiliate/referral system
-- [ ] Build white-label options
-- [ ] Implement data monetization features
-- [ ] Create automated reporting for customers
+- [x] Build white-label options
+- [x] Implement data monetization features
+- [x] Create automated reporting for customers
 - [x] Build admin dashboard for revenue tracking
-- [ ] Set up automatic payment reminders
+- [x] Set up automatic payment reminders
 
 ## Phase 3-5: Autonome Monetarisierung & Persistente Architektur
 - [x] Projektstatus und Build verifiziert
-- [ ] Stripe-Webhook & Checkout Endpunkte mit echter DB-Verknüpfung absichern
+- [x] Stripe-Webhook & Checkout Endpunkte mit echter DB-Verknüpfung absichern
 - [x] Echte Datenbanktabellen für API-Keys, Usage-Metering und Affiliates in Drizzle Schema anlegen
 - [x] tRPC Router für Revenue, API Keys, Affiliate und Subscriptions erstellen
 - [x] Persistente Sidebar-Navigation für alle Dashboard- und Einnahmeseiten einbauen
